@@ -1,8 +1,9 @@
 package com.github.shell.io;
 
+import static com.github.shell.utils.Utils.ECHO_COMMAND;
+import static com.github.shell.utils.Utils.IS_SHELL_COMMAND;
 import static com.github.shell.utils.Utils.EXIT_COMMAND;
 
-import com.github.shell.utils.Utils;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.slf4j.Logger;
@@ -54,14 +55,42 @@ public final class Commands {
   }
 
   private void evaluateCommand(final String command) {
-    if (command.equalsIgnoreCase(EXIT_COMMAND)) {
-      exitApplication();
+    String firstWord = getFirstWord(command);
+
+    if (IS_SHELL_COMMAND(firstWord)) {
+      switch (firstWord.toUpperCase()) {
+        case ECHO_COMMAND -> echoCommand(command);
+        case EXIT_COMMAND -> exitShell();
+      }
+    } else {
+      System.out.println(command + ": " + "command not found");
     }
-    System.out.println(command + ": " + "command not found");
   }
 
-  private void exitApplication() {
+  private void exitShell() {
     scanner.close();
     System.exit(0);
+  }
+
+  private void echoCommand(String command) {
+    System.out.println(getRestOfTheCommand(command));
+  }
+
+  private String getFirstWord(String command) {
+    int firstSpaceIndex = command.indexOf(" ");
+    if (firstSpaceIndex == -1) {
+      return command;
+    } else {
+      return command.substring(0, firstSpaceIndex);
+    }
+  }
+
+  private String getRestOfTheCommand(String command) {
+    int firstSpaceIndex = command.indexOf(" ");
+    if (firstSpaceIndex == -1) {
+      return command;
+    } else {
+      return command.substring(firstSpaceIndex + 1);
+    }
   }
 }

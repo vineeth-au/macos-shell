@@ -6,4 +6,10 @@ public final class Utils {
   }
 
   public static final String EXIT_COMMAND = "EXIT";
+  public static final String ECHO_COMMAND = "ECHO";
+
+  public static boolean IS_SHELL_COMMAND(final String shellCommand) {
+    return shellCommand.equalsIgnoreCase(EXIT_COMMAND)
+        || shellCommand.equalsIgnoreCase(ECHO_COMMAND);
+  }
 }
