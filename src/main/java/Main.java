@@ -1,9 +1,15 @@
 import com.github.shell.io.Commands;
+import java.util.Scanner;
 
-void main() {
-  Scanner scanner = new Scanner(System.in);
-  Commands commands = new Commands(scanner);
+public class Main {
 
-  commands.startInputController();
+  void main() {
+    Scanner scanner = new Scanner(System.in);
+    Commands commands = new Commands(scanner);
+
+    Runtime.getRuntime().addShutdownHook(new Thread(commands::stop));
+
+    commands.startInputController();
+  }
 }
 
