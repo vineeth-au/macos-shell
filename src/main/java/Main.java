@@ -1,12 +1,9 @@
-import java.util.Scanner;
+import com.github.shell.io.Commands;
 
-public class Main {
+void main() {
+  Scanner scanner = new Scanner(System.in);
+  Commands commands = new Commands(scanner);
 
-  public static void main(String[] args) throws Exception {
-    System.out.print("$ ");
-    Scanner inputReader = new Scanner(System.in);
-    String command = inputReader.nextLine();
-
-    System.out.println(command+": "+"command not found");
-  }
+  commands.startInputController();
 }
+
