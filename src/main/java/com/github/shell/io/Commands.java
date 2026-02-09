@@ -1,5 +1,8 @@
 package com.github.shell.io;
 
+import static com.github.shell.utils.Utils.EXIT_COMMAND;
+
+import com.github.shell.utils.Utils;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.slf4j.Logger;
@@ -26,6 +29,7 @@ public final class Commands {
       }
     } finally {
       scanner.close();
+      System.exit(0);
     }
   }
 
@@ -50,6 +54,14 @@ public final class Commands {
   }
 
   private void evaluateCommand(final String command) {
+    if (command.equalsIgnoreCase(EXIT_COMMAND)) {
+      exitApplication();
+    }
     System.out.println(command + ": " + "command not found");
+  }
+
+  private void exitApplication() {
+    scanner.close();
+    System.exit(0);
   }
 }
