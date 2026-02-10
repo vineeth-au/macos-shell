@@ -17,7 +17,7 @@ public final class Commands {
   private final Logger log = LoggerFactory.getLogger(Commands.class);
 
   public void startInputController() {
-    try (Scanner scanner = new Scanner(System.in)){
+    try (Scanner scanner = new Scanner(System.in)) {
       while (IS_RUNNING) {
         String commandToExecute = readInput(scanner);
         if (Objects.nonNull(commandToExecute)) {
@@ -54,12 +54,17 @@ public final class Commands {
         case TYPE_COMMAND -> typeCommand(command);
       }
     } else {
-      System.out.println(command + ": " + "command not found");
+      System.out.println(command + ": command not found");
     }
   }
 
   private void typeCommand(String command) {
-    System.out.println(getArgument(command)+" is a shell builtin");
+    String isBuiltIn = getArgument(command);
+    if (COMMAND_IS(isBuiltIn)) {
+      System.out.println(getArgument(command) + " is a shell builtin");
+    } else {
+      System.out.println(isBuiltIn + ": not found");
+    }
   }
 
   private void exitCommand() {
