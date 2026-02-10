@@ -1,11 +1,8 @@
-import com.github.shell.io.Commands;
+import com.github.cli.Runner;
 
-public class Main {
+void main() {
+  Runner cliRunner = new Runner();
+  Runtime.getRuntime().addShutdownHook(new Thread(cliRunner::stop));
 
-  void main() {
-    Commands commands = new Commands();
-    Runtime.getRuntime().addShutdownHook(new Thread(commands::stop));
-
-    commands.startInputController();
-  }
+  cliRunner.start();
 }

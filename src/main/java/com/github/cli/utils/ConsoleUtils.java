@@ -1,8 +1,8 @@
-package com.github.shell.utils;
+package com.github.cli.utils;
 
-public final class Utils {
+public final class ConsoleUtils {
 
-  private Utils() {
+  private ConsoleUtils() {
     throw new IllegalStateException("Util Class not to be instantiated!!!");
   }
 
