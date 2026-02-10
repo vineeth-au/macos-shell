@@ -1,10 +1,12 @@
 package com.github.shell.io;
 
+import static com.github.shell.utils.Utils.COMMAND_IS;
 import static com.github.shell.utils.Utils.ECHO_COMMAND;
-import static com.github.shell.utils.Utils.IS_SHELL_COMMAND;
 import static com.github.shell.utils.Utils.EXIT_COMMAND;
+import static com.github.shell.utils.Utils.TYPE_COMMAND;
 
-import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,25 +14,16 @@ import org.slf4j.LoggerFactory;
 public final class Commands {
 
   private volatile boolean IS_RUNNING = true;
-  private final Scanner scanner;
   private final Logger log = LoggerFactory.getLogger(Commands.class);
 
-  public Commands(final Scanner scanner) {
-    this.scanner = scanner;
-  }
-
   public void startInputController() {
-    try {
+    try (Scanner scanner = new Scanner(System.in)){
       while (IS_RUNNING) {
-        System.out.print("$ ");
-        String commandToExecute = readInput();
-        if (commandToExecute != null) {
+        String commandToExecute = readInput(scanner);
+        if (Objects.nonNull(commandToExecute)) {
           evaluateCommand(commandToExecute);
         }
       }
-    } finally {
-      scanner.close();
-      System.exit(0);
     }
   }
 
@@ -38,45 +31,46 @@ public final class Commands {
     IS_RUNNING = false;
   }
 
-  private String readInput() {
+  private String readInput(final Scanner scanner) {
+    System.out.print("$ ");
     String lineToRead = "";
     try {
-      lineToRead = scanner.nextLine();
-      if (lineToRead.isEmpty()) {
-        //TODO: Maybe something in future?
-        return "";
-      }
-    } catch (InputMismatchException inputMismatch) {
-      log.info("InputMismatch {}", inputMismatch.getMessage());
-    } catch (Exception exception) {
-      log.error("Error {}", exception.getMessage());
+      lineToRead = scanner.nextLine().stripTrailing();
+    } catch (NoSuchElementException noSuchElement) {
+      log.info("InputMismatch {}", noSuchElement.getMessage());
+    } catch (IllegalStateException illegalState) {
+      log.error("Error {}", illegalState.getMessage());
     }
     return lineToRead;
   }
 
   private void evaluateCommand(final String command) {
-    String firstWord = getFirstWord(command);
+    String builtIn = getBuiltIn(command);
 
-    if (IS_SHELL_COMMAND(firstWord)) {
-      switch (firstWord.toUpperCase()) {
+    if (COMMAND_IS(builtIn)) {
+      switch (builtIn.toUpperCase()) {
         case ECHO_COMMAND -> echoCommand(command);
-        case EXIT_COMMAND -> exitShell();
+        case EXIT_COMMAND -> exitCommand();
+        case TYPE_COMMAND -> typeCommand(command);
       }
     } else {
       System.out.println(command + ": " + "command not found");
     }
   }
 
-  private void exitShell() {
-    scanner.close();
+  private void typeCommand(String command) {
+    System.out.println(getArgument(command)+" is a shell builtin");
+  }
+
+  private void exitCommand() {
     System.exit(0);
   }
 
   private void echoCommand(String command) {
-    System.out.println(getRestOfTheCommand(command));
+    System.out.println(getArgument(command));
   }
 
-  private String getFirstWord(String command) {
+  private String getBuiltIn(String command) {
     int firstSpaceIndex = command.indexOf(" ");
     if (firstSpaceIndex == -1) {
       return command;
@@ -85,7 +79,7 @@ public final class Commands {
     }
   }
 
-  private String getRestOfTheCommand(String command) {
+  private String getArgument(String command) {
     int firstSpaceIndex = command.indexOf(" ");
     if (firstSpaceIndex == -1) {
       return command;
