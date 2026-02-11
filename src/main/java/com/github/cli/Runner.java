@@ -2,6 +2,7 @@ package com.github.cli;
 
 import com.github.cli.commands.Command;
 import com.github.cli.commands.Echo;
+import com.github.cli.commands.External;
 import com.github.cli.commands.Type;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -15,6 +16,7 @@ public final class Runner {
   private final Logger log = LoggerFactory.getLogger(Runner.class);
   private final Command echoCommand = new Echo();
   private final Command typeCommand = new Type();
+  private final Command exteralCommand = new External();
 
   public void start() {
     try (Scanner scanner = new Scanner(System.in)) {
@@ -79,6 +81,11 @@ public final class Runner {
     TYPE {
       void execute(Runner runner, String builtIn, String command) {
         runner.typeCommand.execute(builtIn, command);
+      }
+    },
+    PATH {
+      void execute(Runner runner, String builtIn, String command) {
+        runner.exteralCommand.execute(builtIn, command);
       }
     };
 
