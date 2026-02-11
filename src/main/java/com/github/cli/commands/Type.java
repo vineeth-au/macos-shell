@@ -83,6 +83,9 @@ public final class Type implements Command {
         stringBuilder.delete(0, stringBuilder.length());
       }
     }
+    if (!stringBuilder.isEmpty()) {
+      pathList.add(stringBuilder.toString());
+    }
     if (pathList.size() < 2) {
       log.error("Path is empty!!! {}", pathParameters);
     }
