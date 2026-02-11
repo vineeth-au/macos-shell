@@ -64,13 +64,12 @@ public final class Type implements Command {
 
   private List<String> getExecutableFilesFrom(String filePath) throws IOException{
     try (Stream<Path> fileStream = Files.list(Paths.get(filePath))) {
-
-      List<String> list = fileStream.filter(f -> !Files.isDirectory(f))
+      return fileStream
+          .filter(f -> !Files.isDirectory(f))
+          .filter(Files::isExecutable)
           .map(Path::getFileName)
-          .filter(f-> !Files.isExecutable(f))
           .map(Path::toString)
           .toList();
-      return list;
     }
   }
 
@@ -95,7 +94,6 @@ public final class Type implements Command {
   }
 
   private boolean isBuiltIn(String argument) {
-//    String isBuiltIn = getArgumentFromCommand(argument);
     if (COMMAND_IS(argument)) {
       System.out.println(argument + " is a shell builtin");
       return true;
