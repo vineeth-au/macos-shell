@@ -4,6 +4,6 @@ public final class Echo implements Command {
 
   @Override
   public void execute(String builtIn, String argument) {
-    System.out.println(getArgument(argument));
+    System.out.println(getArgumentFrom(argument));
   }
 }

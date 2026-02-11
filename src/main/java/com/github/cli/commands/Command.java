@@ -4,7 +4,7 @@ public interface Command {
 
   void execute(final String builtIn, final String argument);
 
-  default String getBuiltIn(final String command) {
+  default String getBuiltInFrom(final String command) {
     int firstSpaceIndex = command.indexOf(" ");
     if (firstSpaceIndex == -1) {
       return command;
@@ -13,7 +13,7 @@ public interface Command {
     }
   }
 
-  default String getArgument(final String command) {
+  default String getArgumentFrom(final String command) {
     int firstSpaceIndex = command.indexOf(" ");
     if (firstSpaceIndex == -1) {
       return command;

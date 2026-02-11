@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory;
 
 public final class Runner {
 
-  private volatile boolean IS_RUNNING = true;
+  private volatile boolean isRunning = true;
   private final Logger log = LoggerFactory.getLogger(Runner.class);
   private final Command echoCommand = new Echo();
   private final Command typeCommand = new Type();
 
   public void start() {
     try (Scanner scanner = new Scanner(System.in)) {
-      while (IS_RUNNING) {
+      while (isRunning) {
         String commandToExecute = readInput(scanner);
         if (Objects.nonNull(commandToExecute)) {
           evaluateCommand(commandToExecute);
@@ -28,7 +28,7 @@ public final class Runner {
   }
 
   public void stop() {
-    IS_RUNNING = false;
+    isRunning = false;
   }
 
   private String readInput(final Scanner scanner) {
@@ -52,13 +52,13 @@ public final class Runner {
   }
 
   private BuiltInCommand getBuiltInCommand(String command) {
-    int firstSpace = command.stripLeading().indexOf(" ");
-    int length = (firstSpace == -1) ? command.length() : firstSpace;
+    int firstSpaceIndex = command.stripLeading().indexOf(" ");
+    int builtInCmdLength = (firstSpaceIndex == -1) ? command.length() : firstSpaceIndex;
 
     for (BuiltInCommand builtIn : BuiltInCommand.values()) {
       String name = builtIn.name();
-      if (name.length() == length
-          && command.regionMatches(true, 0, name, 0, length)) {
+      if (name.length() == builtInCmdLength
+          && command.regionMatches(true, 0, name, 0, builtInCmdLength)) {
         return builtIn;
       }
     }
