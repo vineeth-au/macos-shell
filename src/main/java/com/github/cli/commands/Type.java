@@ -27,7 +27,9 @@ public final class Type implements Command {
     if (!isBuiltIn) {
       List<String> pathList = getPaths();
       String validCommand = "";
+      String currentPath = "";
       for (String eachPath : pathList) {
+        currentPath = eachPath;
          validCommand = checkEachFilePath(eachPath, argument);
          if (!validCommand.isEmpty()) {
            break;
@@ -36,7 +38,7 @@ public final class Type implements Command {
       if (validCommand.isEmpty()) {
         System.out.println(argument+": not found");
       } else {
-        System.out.println(argument+" is "+validCommand);
+        System.out.println(argument+" is "+currentPath+"/"+argument);
       }
     }
   }
@@ -49,7 +51,7 @@ public final class Type implements Command {
         List<String> executableFiles = getExecutableFilesFrom(filePath);
         if (!executableFiles.isEmpty()) {
           return executableFiles.stream()
-              .filter(f -> f.contains(argument))
+              .filter(f -> f.equalsIgnoreCase(argument))
               .findFirst()
               .orElse("");
         }
@@ -65,7 +67,7 @@ public final class Type implements Command {
 
       List<String> list = fileStream.filter(f -> !Files.isDirectory(f))
           .map(Path::getFileName)
-          .filter(Files::isExecutable)
+          .filter(f-> !Files.isExecutable(f))
           .map(Path::toString)
           .toList();
       return list;
