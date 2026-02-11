@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,29 +21,27 @@ public final class Type implements Command {
   @Override
   public void execute(String builtIn, String command) {
     String argument = getArgumentFromCommand(command);
-    boolean isBuiltIn = isBuiltIn(argument);
+    boolean isBuiltInCommand = isBuiltIn(argument);
+    if (!isBuiltInCommand) {
+      locateExecutableFile(argument);
+    }
+  }
 
-    if (!isBuiltIn) {
-      List<String> pathList = getPaths();
-      String validCommand = "";
-      String currentPath = "";
-      for (String eachPath : pathList) {
-        currentPath = eachPath;
-         validCommand = checkEachFilePath(eachPath, argument);
-         if (!validCommand.isEmpty()) {
-           break;
-         }
+  private void locateExecutableFile(String argument) {
+    String validCommand = "";
+    for (String eachFilePath : getSystemEnvironmentPaths()) {
+      validCommand = checkEachFilePath(eachFilePath, argument);
+      if (!validCommand.isEmpty()) {
+        System.out.println(argument + " is " + eachFilePath + "/" + argument);
+        break;
       }
-      if (validCommand.isEmpty()) {
-        System.out.println(argument+": not found");
-      } else {
-        System.out.println(argument+" is "+currentPath+"/"+argument);
-      }
+    }
+    if (validCommand.isEmpty()) {
+      System.out.println(argument + ": not found");
     }
   }
 
   private String checkEachFilePath(String filePath, String argument) {
-    Optional<String> command;
     try {
       File file = new File(filePath);
       if (file.exists()) {
@@ -57,12 +54,12 @@ public final class Type implements Command {
         }
       }
     } catch (IOException e) {
-      System.out.println("File Operation Error " + e.getMessage());
+      log.error("File Operation Error {}", e.getMessage());
     }
     return "";
   }
 
-  private List<String> getExecutableFilesFrom(String filePath) throws IOException{
+  private List<String> getExecutableFilesFrom(String filePath) throws IOException {
     try (Stream<Path> fileStream = Files.list(Paths.get(filePath))) {
       return fileStream
           .filter(f -> !Files.isDirectory(f))
@@ -73,7 +70,7 @@ public final class Type implements Command {
     }
   }
 
-  private List<String> getPaths() {
+  private List<String> getSystemEnvironmentPaths() {
     String pathParameters = System.getenv(PATH);
     List<String> pathList = new ArrayList<>();
 
@@ -88,7 +85,6 @@ public final class Type implements Command {
     }
     if (pathList.size() < 2) {
       log.error("Path is empty!!! {}", pathParameters);
-      throw new IllegalStateException("PATH is Empty!!!" + pathParameters);
     }
     return pathList;
   }
