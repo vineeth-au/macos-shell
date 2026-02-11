@@ -1,6 +1,6 @@
 ## Overview
-A POSIX compliant shell that (in the near future) be capable of interpreting shell commands,
-running external programs and builtin commands like cd, pwd, echo and more.
+A POSIX compliant shell (in the near future) capable of interpreting shell commands, running 
+external programs and builtin commands like cd, pwd, echo and more.
 
 ## Java Version
 This version has been only tested on Java 25.
