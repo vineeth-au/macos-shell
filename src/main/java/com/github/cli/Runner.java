@@ -46,11 +46,7 @@ public final class Runner {
 
   private void evaluateCommand(final String command) {
     BuiltInCommand builtInCommand = getBuiltInCommand(command);
-    if (builtInCommand == null) {
-      System.out.println(command + ": command not found");
-    } else {
-      builtInCommand.execute(this, builtInCommand.name(), command);
-    }
+    builtInCommand.execute(this, builtInCommand.name(), command);
   }
 
   private BuiltInCommand getBuiltInCommand(String command) {
@@ -64,7 +60,8 @@ public final class Runner {
         return builtIn;
       }
     }
-    return null;
+    // TODO: This can be refined
+    return BuiltInCommand.PATH_COMMANDS;
   }
 
   private enum BuiltInCommand {
@@ -83,7 +80,7 @@ public final class Runner {
         runner.typeCommand.execute(builtIn, command);
       }
     },
-    PATH {
+    PATH_COMMANDS {
       void execute(Runner runner, String builtIn, String command) {
         runner.exteralCommand.execute(builtIn, command);
       }

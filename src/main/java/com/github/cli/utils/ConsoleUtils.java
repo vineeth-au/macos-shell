@@ -11,7 +11,7 @@ public final class ConsoleUtils {
   public static final String TYPE_COMMAND = "TYPE";
   public static final String PATH = "PATH";
 
-  public static boolean COMMAND_IS(final String shellCommand) {
+  public static boolean IS_COMMAND_BUILTIN(final String shellCommand) {
     return shellCommand.equalsIgnoreCase(EXIT_COMMAND)
         || shellCommand.equalsIgnoreCase(ECHO_COMMAND)
         || shellCommand.equalsIgnoreCase(TYPE_COMMAND);

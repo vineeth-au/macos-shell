@@ -1,6 +1,7 @@
 #!/bin/sh
+set -e # Exit early if any commands fail
 
-set -e (
+(
   cd "$(dirname "$0")"
   mvn -q -B package -Ddir=/tmp/codecrafters-build-shell-java
 )

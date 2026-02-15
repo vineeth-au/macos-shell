@@ -1,16 +1,7 @@
 package com.github.cli.commands;
 
-import static com.github.cli.utils.ConsoleUtils.COMMAND_IS;
-import static com.github.cli.utils.ConsoleUtils.PATH;
+import static com.github.cli.utils.ConsoleUtils.IS_COMMAND_BUILTIN;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +11,8 @@ public final class Type implements Command {
 
   @Override
   public void execute(String builtIn, String command) {
-    String argument = getArgumentFromCommand(command);
-    boolean isBuiltInCommand = isBuiltIn(argument);
+    String argument = getArgumentFrom(command);
+    boolean isBuiltInCommand = isBuiltInCommand(argument);
     if (!isBuiltInCommand) {
       locateExecutableFile(argument);
     }
@@ -41,66 +32,11 @@ public final class Type implements Command {
     }
   }
 
-  private String checkEachFilePath(String filePath, String argument) {
-    try {
-      File file = new File(filePath);
-      if (file.exists()) {
-        List<String> executableFiles = getExecutableFilesFrom(filePath);
-        if (!executableFiles.isEmpty()) {
-          return executableFiles.stream()
-              .filter(f -> f.equalsIgnoreCase(argument))
-              .findFirst()
-              .orElse("");
-        }
-      }
-    } catch (IOException e) {
-      log.error("File Operation Error {}", e.getMessage());
-    }
-    return "";
-  }
-
-  private List<String> getExecutableFilesFrom(String filePath) throws IOException {
-    try (Stream<Path> fileStream = Files.list(Paths.get(filePath))) {
-      return fileStream
-          .filter(f -> !Files.isDirectory(f))
-          .filter(Files::isExecutable)
-          .map(Path::getFileName)
-          .map(Path::toString)
-          .toList();
-    }
-  }
-
-  private List<String> getSystemEnvironmentPaths() {
-    String pathParameters = System.getenv(PATH);
-    List<String> pathList = new ArrayList<>();
-
-    StringBuilder stringBuilder = new StringBuilder();
-    for (Character eachChar : pathParameters.toCharArray()) {
-      if (eachChar != ':') {
-        stringBuilder.append(eachChar);
-      } else {
-        pathList.add(stringBuilder.toString());
-        stringBuilder.delete(0, stringBuilder.length());
-      }
-    }
-    if (!stringBuilder.isEmpty()) {
-      pathList.add(stringBuilder.toString());
-    }
-    if (pathList.size() < 2) {
-      log.error("Path is empty!!! {}", pathParameters);
-    }
-    return pathList;
-  }
-
-  private boolean isBuiltIn(String argument) {
-    if (COMMAND_IS(argument)) {
+  private boolean isBuiltInCommand(String argument) {
+    if (IS_COMMAND_BUILTIN(argument)) {
       System.out.println(argument + " is a shell builtin");
       return true;
     }
     return false;
-  }
-
-  private String getArgumentFromCommand(String command) {
-    return getArgumentFrom(command);
   }
 }
