@@ -36,7 +36,20 @@ This version has been only tested on Java 25.
          $ type echo
          echo is a shell builtin
         ```
-1. Support for running external programs with arguments - In Progress
+1. Support for running external programs with arguments
+1. When a command isn't a builtin, the shell would:
+   1. Search for an executable with the given name in the directories listed in PATH (just like type does)
+
+    ```shell
+     $ type echo
+     echo is a shell builtin
+     $ type ls
+     ls is /bin/ls
+     $ type grep
+     grep is /usr/bin/grep
+    ```
+1. `pwd` (print working directory) builtin prints the full, absolute path of the current working directory to stdout.
+
 
 ## Getting Started
 Run `./your_program.sh`
