@@ -2,27 +2,41 @@ package com.github.cli.commands;
 
 import static com.github.cli.utils.ConsoleUtils.IS_COMMAND_BUILTIN;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lombok.Getter;
 
 public final class Type implements Command {
 
-  private final Logger log = LoggerFactory.getLogger(Type.class);
+  @Getter
+  private final Map<String, String> validFileMap;
+  private final List<String> environmentPaths;
+
+  public Type() {
+    environmentPaths = List.copyOf(getSystemEnvironmentPaths());
+    validFileMap = new HashMap<>();
+  }
 
   @Override
   public void execute(String builtIn, String command) {
     String argument = getArgumentFrom(command);
-    boolean isBuiltInCommand = isBuiltInCommand(argument);
-    if (!isBuiltInCommand) {
-      locateExecutableFile(argument);
+    if (!isBuiltInCommand(argument)) {
+      findExecutable(argument);
     }
   }
 
-  private void locateExecutableFile(String argument) {
+  private void findExecutable(final String argument) {
+    if (!getValidFileMap().isEmpty() && getValidFileMap().containsKey(argument)) {
+      String filePath = getValidFileMap().get(argument);
+      System.out.println(argument + " is " + filePath + "/" + argument);
+      return;
+    }
     String validCommand = "";
-    for (String eachFilePath : getSystemEnvironmentPaths()) {
+    for (String eachFilePath : environmentPaths) {
       validCommand = checkEachFilePath(eachFilePath, argument);
       if (!validCommand.isEmpty()) {
+        getValidFileMap().put(argument, eachFilePath);
         System.out.println(argument + " is " + eachFilePath + "/" + argument);
         break;
       }

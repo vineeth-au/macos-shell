@@ -9,11 +9,15 @@ public final class ConsoleUtils {
   public static final String EXIT_COMMAND = "EXIT";
   public static final String ECHO_COMMAND = "ECHO";
   public static final String TYPE_COMMAND = "TYPE";
+  public static final String PWD_COMMAND = "PWD";
+
   public static final String PATH = "PATH";
+  public static final String CURRENT_USER_DIRECTORY = "user.dir";
 
   public static boolean IS_COMMAND_BUILTIN(final String shellCommand) {
     return shellCommand.equalsIgnoreCase(EXIT_COMMAND)
         || shellCommand.equalsIgnoreCase(ECHO_COMMAND)
-        || shellCommand.equalsIgnoreCase(TYPE_COMMAND);
+        || shellCommand.equalsIgnoreCase(TYPE_COMMAND)
+        || shellCommand.equalsIgnoreCase(PWD_COMMAND);
   }
 }

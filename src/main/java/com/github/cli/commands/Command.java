@@ -52,7 +52,7 @@ public interface Command {
     if (!stringBuilder.isEmpty()) {
       pathList.add(stringBuilder.toString());
     }
-    if (pathList.size() < 2) {
+    if (pathList.isEmpty()) {
       log.error("Path is empty!!! {}", pathParameters);
     }
     return pathList;
@@ -76,7 +76,7 @@ public interface Command {
     return "";
   }
 
-  default List<String> getExecutableFilesFrom(String filePath) throws IOException {
+  private List<String> getExecutableFilesFrom(String filePath) throws IOException {
     try (Stream<Path> fileStream = Files.list(Paths.get(filePath))) {
       return fileStream
           .filter(f -> !Files.isDirectory(f))

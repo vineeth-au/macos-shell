@@ -2,7 +2,8 @@ package com.github.cli;
 
 import com.github.cli.commands.Command;
 import com.github.cli.commands.Echo;
-import com.github.cli.commands.External;
+import com.github.cli.commands.Executable;
+import com.github.cli.commands.PrintWorkingDirectory;
 import com.github.cli.commands.Type;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -14,23 +15,28 @@ public final class Runner {
 
   private volatile boolean isRunning = true;
   private final Logger log = LoggerFactory.getLogger(Runner.class);
+
   private final Command echoCommand = new Echo();
   private final Command typeCommand = new Type();
-  private final Command exteralCommand = new External();
+  private final Command shellExecutable = new Executable();
+  private final Command pwdCommand = new PrintWorkingDirectory();
 
   public void start() {
     try (Scanner scanner = new Scanner(System.in)) {
       while (isRunning) {
         String commandToExecute = readInput(scanner);
-        if (Objects.nonNull(commandToExecute)) {
-          evaluateCommand(commandToExecute);
-        }
+        evaluateCommand(commandToExecute);
       }
     }
   }
 
   public void stop() {
     isRunning = false;
+  }
+
+  private void evaluateCommand(final String command) {
+    BuiltInCommand builtInCommand = getBuiltInCommand(command);
+    builtInCommand.execute(this, builtInCommand.name(), command);
   }
 
   private String readInput(final Scanner scanner) {
@@ -44,11 +50,6 @@ public final class Runner {
     return lineToRead;
   }
 
-  private void evaluateCommand(final String command) {
-    BuiltInCommand builtInCommand = getBuiltInCommand(command);
-    builtInCommand.execute(this, builtInCommand.name(), command);
-  }
-
   private BuiltInCommand getBuiltInCommand(String command) {
     int firstSpaceIndex = command.stripLeading().indexOf(" ");
     int builtInCmdLength = (firstSpaceIndex == -1) ? command.length() : firstSpaceIndex;
@@ -60,8 +61,7 @@ public final class Runner {
         return builtIn;
       }
     }
-    // TODO: This can be refined
-    return BuiltInCommand.PATH_COMMANDS;
+    return BuiltInCommand.EXECUTABLE;
   }
 
   private enum BuiltInCommand {
@@ -80,9 +80,14 @@ public final class Runner {
         runner.typeCommand.execute(builtIn, command);
       }
     },
-    PATH_COMMANDS {
+    EXECUTABLE {
       void execute(Runner runner, String builtIn, String command) {
-        runner.exteralCommand.execute(builtIn, command);
+        runner.shellExecutable.execute(builtIn, command);
+      }
+    },
+    PWD {
+      void execute(Runner runner, String builtIn, String command) {
+        runner.pwdCommand.execute(builtIn, command);
       }
     };
 
