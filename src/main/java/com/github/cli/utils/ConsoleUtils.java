@@ -13,7 +13,13 @@ public final class ConsoleUtils {
   public static final String CD_COMMAND = "CD";
 
   public static final String PATH = "PATH";
-  public static final String CURRENT_USER_DIRECTORY = "user.dir";
+  public static final String HOME = "HOME";
+  public static final String TILDE = "~";
+  public static final String FORWARD_SLASH = "/";
+  public static final String DOT = ".";
+  public static final String PARENT_DIRECTORY = "../";
+
+  public static final String USER_DIRECTORY = "user.dir";
 
   public static boolean isCommandBuiltin(final String shellCommand) {
     return shellCommand.equalsIgnoreCase(EXIT_COMMAND)

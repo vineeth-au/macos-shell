@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class Executable implements Command {
 
   private final List<String> environmentPaths;
-  private final Logger log = LoggerFactory.getLogger(Executable.class);
+  private static final Logger log = LoggerFactory.getLogger(Executable.class);
 
   public Executable() {
     environmentPaths = List.copyOf(getSystemEnvironmentPaths());

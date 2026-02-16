@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public final class Runner {
 
   private volatile boolean isRunning = true;
-  private final Logger log = LoggerFactory.getLogger(Runner.class);
+  private static final Logger log = LoggerFactory.getLogger(Runner.class);
 
   private final Command echoCommand = new Echo();
   private final Command typeCommand = new Type();
