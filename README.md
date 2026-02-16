@@ -48,7 +48,7 @@ This version has been only tested on Java 25.
      grep is /usr/bin/grep
     ```
 1. `pwd` (print working directory) builtin prints the full, absolute path of the current working directory to stdout.
-1. `cd` builtin is used to change the current working directory.
+1. `cd` builtin is used to change the current working directory - Implementation in Progress
 
 ## Getting Started
 Run `./your_program.sh`

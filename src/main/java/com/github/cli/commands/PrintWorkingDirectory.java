@@ -2,7 +2,7 @@ package com.github.cli.commands;
 
 import static com.github.cli.utils.ConsoleUtils.CURRENT_USER_DIRECTORY;
 
-public class PrintWorkingDirectory implements Command{
+public class PrintWorkingDirectory implements Command {
 
   @Override
   public void execute(String builtIn, String argument) {

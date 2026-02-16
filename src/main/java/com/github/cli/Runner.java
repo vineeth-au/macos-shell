@@ -1,12 +1,12 @@
 package com.github.cli;
 
+import com.github.cli.commands.ChangeDirectory;
 import com.github.cli.commands.Command;
 import com.github.cli.commands.Echo;
 import com.github.cli.commands.Executable;
 import com.github.cli.commands.PrintWorkingDirectory;
 import com.github.cli.commands.Type;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,7 @@ public final class Runner {
   private final Command typeCommand = new Type();
   private final Command shellExecutable = new Executable();
   private final Command pwdCommand = new PrintWorkingDirectory();
+  private final Command cdCommand = new ChangeDirectory();
 
   public void start() {
     try (Scanner scanner = new Scanner(System.in)) {
@@ -88,6 +89,11 @@ public final class Runner {
     PWD {
       void execute(Runner runner, String builtIn, String command) {
         runner.pwdCommand.execute(builtIn, command);
+      }
+    },
+    CD {
+      void execute(Runner runner, String builtIn, String command) {
+        runner.cdCommand.execute(builtIn, command);
       }
     };
 
