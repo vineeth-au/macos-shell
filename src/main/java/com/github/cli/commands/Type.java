@@ -1,6 +1,6 @@
 package com.github.cli.commands;
 
-import static com.github.cli.utils.ConsoleUtils.IS_COMMAND_BUILTIN;
+import static com.github.cli.utils.ConsoleUtils.isCommandBuiltin;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ public final class Type implements Command {
   }
 
   private boolean isBuiltInCommand(String argument) {
-    if (IS_COMMAND_BUILTIN(argument)) {
+    if (isCommandBuiltin(argument)) {
       System.out.println(argument + " is a shell builtin");
       return true;
     }

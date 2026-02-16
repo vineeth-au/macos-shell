@@ -44,7 +44,11 @@ public final class Runner {
       return;
     }
     BuiltInCommand builtInCommand = getBuiltInCommand(command);
-    builtInCommand.execute(this, builtInCommand.name(), command);
+    try{
+      builtInCommand.execute(this, builtInCommand.name(), command);
+    } catch (Exception e) {
+      log.error("Exception while trying to run execute", e.getCause());
+    }
   }
 
   private String readInput(final Scanner scanner) {

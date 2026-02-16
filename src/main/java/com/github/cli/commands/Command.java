@@ -19,21 +19,29 @@ public interface Command {
   void execute(final String builtIn, final String argument);
 
   default String getBuiltInFrom(final String command) {
-    int firstSpaceIndex = command.indexOf(" ");
-    if (firstSpaceIndex == -1) {
-      return command;
-    } else {
-      return command.substring(0, firstSpaceIndex);
+    if (command != null) {
+      int firstSpaceIndex = command.indexOf(" ");
+      if (firstSpaceIndex == -1) {
+        return command;
+      } else {
+        return command.substring(0, firstSpaceIndex);
+      }
     }
+    log.error("Command was null.");
+    throw new NullPointerException("Command was NUll");
   }
 
   default String getArgumentFrom(final String command) {
-    int firstSpaceIndex = command.indexOf(" ");
-    if (firstSpaceIndex == -1) {
-      return command;
-    } else {
-      return command.substring(firstSpaceIndex + 1);
+    if (command != null) {
+      int firstSpaceIndex = command.indexOf(" ");
+      if (firstSpaceIndex == -1) {
+        return command;
+      } else {
+        return command.substring(firstSpaceIndex + 1);
+      }
     }
+    log.error("Argument was null.");
+    throw new NullPointerException("Argument was NUll");
   }
 
   default List<String> getSystemEnvironmentPaths() {

@@ -15,7 +15,7 @@ public final class ConsoleUtils {
   public static final String PATH = "PATH";
   public static final String CURRENT_USER_DIRECTORY = "user.dir";
 
-  public static boolean IS_COMMAND_BUILTIN(final String shellCommand) {
+  public static boolean isCommandBuiltin(final String shellCommand) {
     return shellCommand.equalsIgnoreCase(EXIT_COMMAND)
         || shellCommand.equalsIgnoreCase(ECHO_COMMAND)
         || shellCommand.equalsIgnoreCase(TYPE_COMMAND)
