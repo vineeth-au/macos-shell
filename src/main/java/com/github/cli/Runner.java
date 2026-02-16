@@ -35,24 +35,31 @@ public final class Runner {
     isRunning = false;
   }
 
-  private void evaluateCommand(final String command) {
+  private void evaluateCommand(String command) {
+    if (command == null) {
+      return;
+    }
+    command = command.strip();
+    if (command.isEmpty()) {
+      return;
+    }
     BuiltInCommand builtInCommand = getBuiltInCommand(command);
     builtInCommand.execute(this, builtInCommand.name(), command);
   }
 
   private String readInput(final Scanner scanner) {
     System.out.print("$ ");
-    String lineToRead = "";
     try {
-      lineToRead = scanner.nextLine().stripTrailing();
+      return scanner.nextLine();
     } catch (NoSuchElementException | IllegalStateException e) {
+      stop();
       log.info("InputMismatch / Error {}", e.getMessage());
+      return null;
     }
-    return lineToRead;
   }
 
-  private BuiltInCommand getBuiltInCommand(String command) {
-    int firstSpaceIndex = command.stripLeading().indexOf(" ");
+  private BuiltInCommand getBuiltInCommand(final String command) {
+    int firstSpaceIndex = command.indexOf(" ");
     int builtInCmdLength = (firstSpaceIndex == -1) ? command.length() : firstSpaceIndex;
 
     for (BuiltInCommand builtIn : BuiltInCommand.values()) {
