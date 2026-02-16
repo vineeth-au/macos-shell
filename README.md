@@ -7,7 +7,6 @@ This version has been only tested on Java 25.
 
 ## Current Features
 1. Prompt: The shell starts with a prompt ($) that signals it’s ready for your command. As of now, only a few commands are supported.
-    1. For now, most commands except `echo`, `exit` and `type` are treated as "invalid".
 1. The `exit` command terminates the shell.
     1. `Control + C` terminates the shell.
 1. The `echo` builtin prints its arguments to `stdout`, with spaces between them, and a newline at the end.
@@ -49,7 +48,7 @@ This version has been only tested on Java 25.
      grep is /usr/bin/grep
     ```
 1. `pwd` (print working directory) builtin prints the full, absolute path of the current working directory to stdout.
-
+1. `cd` builtin is used to change the current working directory.
 
 ## Getting Started
 Run `./your_program.sh`
