@@ -16,6 +16,7 @@
     <lombok.version>1.18.42</lombok.version>
     <log4J.version>2.25.3</log4J.version>
     <junit.version>5.10.2</junit.version>
+    <assertj.version>3.27.7</assertj.version>
   </properties>
 
   <dependencies>
@@ -44,6 +45,18 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
