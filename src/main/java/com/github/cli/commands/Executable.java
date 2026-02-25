@@ -39,7 +39,7 @@ public class Executable implements Command {
     }
   }
 
-  private void executeShellCommand(final String validShellCommand) throws IOException {
+  private void executeShellCommand(String validShellCommand) throws IOException {
     //TODO: Redo this using Process builder
     Process process = Runtime.getRuntime().exec(validShellCommand);
     String eachLine = "";

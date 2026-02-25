@@ -35,22 +35,6 @@ public final class Runner {
     isRunning = false;
   }
 
-  private void evaluateCommand(String command) {
-    if (command == null) {
-      return;
-    }
-    command = command.strip();
-    if (command.isEmpty()) {
-      return;
-    }
-    BuiltInCommand builtInCommand = getBuiltInCommand(command);
-    try{
-      builtInCommand.execute(this, builtInCommand.name(), command);
-    } catch (Exception e) {
-      log.error("Exception while trying to run execute", e.getCause());
-    }
-  }
-
   private String readInput(final Scanner scanner) {
     System.out.print("$ ");
     try {
@@ -59,6 +43,22 @@ public final class Runner {
       stop();
       log.info("InputMismatch / Error {}", e.getMessage());
       return null;
+    }
+  }
+
+  private void evaluateCommand(String command) {
+    if (command == null || command.isEmpty()) {
+      return;
+    }
+    command = command.strip();
+    if (command.isBlank()) {
+      return;
+    }
+    BuiltInCommand builtInCommand = getBuiltInCommand(command);
+    try{
+      builtInCommand.execute(this, builtInCommand.name(), command);
+    } catch (Exception e) {
+      log.error("Exception while trying to run execute", e.getCause());
     }
   }
 

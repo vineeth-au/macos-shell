@@ -6,37 +6,38 @@ public final class Echo implements Command {
 
   @Override
   public void execute(String builtIn, String argument) {
-    String arg = getArgumentFrom(argument);
+    final String arg = getArgumentFrom(argument);
     if (!containsQuotes(arg)) {
-      System.out.println(normalizeSpace(arg));
+      normalizeSpace(arg);
     } else {
-      System.out.println(printStringInsideQuotes(arg));
+      printStringInsideQuotes(arg);
     }
   }
 
-  private boolean containsQuotes(final String argument) {
+  private boolean containsQuotes(String argument) {
     return argument.contains(SINGLE_QUOTE);
   }
 
-  private String normalizeSpace(String argument) {
-    return argument.strip().replaceAll("\\s+", " ");
+  private void normalizeSpace(String argument) {
+    System.out.println(argument.strip().replaceAll("\\s+", " "));
   }
 
-  public String printStringInsideQuotes(String argument) {
+  private void printStringInsideQuotes(String argument) {
     argument = argument.replaceAll("''", "");
     int numberOfQuotes = getNumberOfSingleQuotes(argument);
     if (numberOfQuotes == 0) {
-      return argument;
+      System.out.println(argument);
     } else if (numberOfQuotes == 2) {
-      return argument
+      String output = argument
           .replaceAll("''", "")
           .substring(1, argument.length() - 1);
+      System.out.println(output);
     } else {
-      return argument.replaceAll("'", "");
+      System.out.println(argument.replaceAll("'", ""));
     }
   }
 
-  private int getNumberOfSingleQuotes(final String argument) {
+  private int getNumberOfSingleQuotes(String argument) {
     return Math.toIntExact(argument.chars().filter(e -> e == '\'').count());
   }
 
