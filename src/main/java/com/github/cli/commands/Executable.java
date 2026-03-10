@@ -17,8 +17,8 @@ public class Executable implements Command {
   }
 
   @Override
-  public void execute(String builtIn, String argument) {
-    locateExecutableFile(argument);
+  public void execute(String command) {
+    locateExecutableFile(command);
   }
 
   private void locateExecutableFile(String argument) {

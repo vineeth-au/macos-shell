@@ -56,7 +56,7 @@ public final class Runner {
     }
     BuiltInCommand builtInCommand = getBuiltInCommand(command);
     try{
-      builtInCommand.execute(this, builtInCommand.name(), command);
+      builtInCommand.execute(this, command);
     } catch (Exception e) {
       log.error("Exception while trying to run execute", e.getCause());
     }
@@ -78,36 +78,36 @@ public final class Runner {
 
   private enum BuiltInCommand {
     EXIT {
-      void execute(Runner runner, String builtIn, String command) {
+      void execute(Runner runner, String command) {
         runner.stop();
       }
     },
     ECHO {
-      void execute(Runner runner, String builtIn, String command) {
-        runner.echoCommand.execute(builtIn, command);
+      void execute(Runner runner, String command) {
+        runner.echoCommand.execute(command);
       }
     },
     TYPE {
-      void execute(Runner runner, String builtIn, String command) {
-        runner.typeCommand.execute(builtIn, command);
+      void execute(Runner runner, String command) {
+        runner.typeCommand.execute(command);
       }
     },
     EXECUTABLE {
-      void execute(Runner runner, String builtIn, String command) {
-        runner.shellExecutable.execute(builtIn, command);
+      void execute(Runner runner, String command) {
+        runner.shellExecutable.execute(command);
       }
     },
     PWD {
-      void execute(Runner runner, String builtIn, String command) {
-        runner.pwdCommand.execute(builtIn, command);
+      void execute(Runner runner, String command) {
+        runner.pwdCommand.execute(command);
       }
     },
     CD {
-      void execute(Runner runner, String builtIn, String command) {
-        runner.cdCommand.execute(builtIn, command);
+      void execute(Runner runner, String command) {
+        runner.cdCommand.execute(command);
       }
     };
 
-    abstract void execute(Runner context, String builtIn, String command);
+    abstract void execute(Runner context, String command);
   }
 }

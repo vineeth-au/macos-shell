@@ -19,7 +19,7 @@ public final class Type implements Command {
   }
 
   @Override
-  public void execute(String builtIn, String command) {
+  public void execute(String command) {
     String argument = getArgumentFrom(command);
     if (!isBuiltInCommand(argument)) {
       findExecutable(argument);

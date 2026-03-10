@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 public interface Command {
   Logger log = LoggerFactory.getLogger(Command.class);
 
-  void execute(final String builtIn, final String argument);
+  void execute(final String command);
 
   default String getBuiltInFrom(final String command) {
     if (command != null) {

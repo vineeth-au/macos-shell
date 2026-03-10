@@ -2,7 +2,6 @@ package com.github.cli.commands;
 
 import static com.github.cli.utils.ConsoleUtils.PARENT_DIRECTORY;
 import static com.github.cli.utils.ConsoleUtils.USER_DIRECTORY;
-import static com.github.cli.utils.ConsoleUtils.DOT;
 import static com.github.cli.utils.ConsoleUtils.FORWARD_SLASH;
 import static com.github.cli.utils.ConsoleUtils.HOME;
 import static com.github.cli.utils.ConsoleUtils.TILDE;
@@ -24,8 +23,8 @@ public class ChangeDirectory implements Command {
   private static final Logger log = LoggerFactory.getLogger(ChangeDirectory.class);
 
   @Override
-  public void execute(String builtIn, String argument) {
-    String filePath = getArgumentFrom(argument);
+  public void execute(String command) {
+    String filePath = getArgumentFrom(command);
     if (!isValidFilePath(filePath)) {
       System.out.println("cd: " + filePath + ": No such file or directory");
       return;

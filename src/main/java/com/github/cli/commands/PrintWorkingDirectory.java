@@ -5,7 +5,7 @@ import static com.github.cli.utils.ConsoleUtils.USER_DIRECTORY;
 public class PrintWorkingDirectory implements Command {
 
   @Override
-  public void execute(String builtIn, String argument) {
+  public void execute(String command) {
     System.out.println(System.getProperty(USER_DIRECTORY));
   }
 }

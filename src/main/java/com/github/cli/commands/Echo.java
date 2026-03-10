@@ -5,17 +5,13 @@ import static com.github.cli.utils.ConsoleUtils.SINGLE_QUOTE;
 public final class Echo implements Command {
 
   @Override
-  public void execute(String builtIn, String argument) {
-    final String arg = getArgumentFrom(argument);
-    if (!containsQuotes(arg)) {
-      normalizeSpace(arg);
+  public void execute(String command) {
+    final String argument = getArgumentFrom(command);
+    if (!argument.contains(SINGLE_QUOTE)) {
+      normalizeSpace(argument);
     } else {
-      printStringInsideQuotes(arg);
+      printStringInsideQuotes(argument);
     }
-  }
-
-  private boolean containsQuotes(String argument) {
-    return argument.contains(SINGLE_QUOTE);
   }
 
   private void normalizeSpace(String argument) {
