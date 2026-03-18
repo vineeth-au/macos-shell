@@ -1,11 +1,13 @@
-package com.github.cli.commands;
+package com.github.cli.command.commands;
 
-import static com.github.cli.utils.ConsoleUtils.PARENT_DIRECTORY;
-import static com.github.cli.utils.ConsoleUtils.USER_DIRECTORY;
+import static com.github.cli.command.CommandUtils.getArgumentFrom;
 import static com.github.cli.utils.ConsoleUtils.FORWARD_SLASH;
 import static com.github.cli.utils.ConsoleUtils.HOME;
+import static com.github.cli.utils.ConsoleUtils.PARENT_DIRECTORY;
 import static com.github.cli.utils.ConsoleUtils.TILDE;
+import static com.github.cli.utils.ConsoleUtils.USER_DIRECTORY;
 
+import com.github.cli.command.Command;
 import java.io.IOError;
 import java.nio.file.Files;
 import java.nio.file.Path;

@@ -1,11 +1,12 @@
 package com.github.cli;
 
-import com.github.cli.commands.ChangeDirectory;
-import com.github.cli.commands.Command;
-import com.github.cli.commands.Echo;
-import com.github.cli.commands.Executable;
-import com.github.cli.commands.PrintWorkingDirectory;
-import com.github.cli.commands.Type;
+import com.github.cli.command.BuiltInCommand;
+import com.github.cli.command.commands.ChangeDirectory;
+import com.github.cli.command.Command;
+import com.github.cli.command.commands.Echo;
+import com.github.cli.command.commands.Executable;
+import com.github.cli.command.commands.PrintWorkingDirectory;
+import com.github.cli.command.commands.Type;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.slf4j.Logger;
@@ -16,11 +17,11 @@ public final class Runner {
   private volatile boolean isRunning = true;
   private static final Logger log = LoggerFactory.getLogger(Runner.class);
 
-  private final Command echoCommand = new Echo();
-  private final Command typeCommand = new Type();
-  private final Command shellExecutable = new Executable();
-  private final Command pwdCommand = new PrintWorkingDirectory();
-  private final Command cdCommand = new ChangeDirectory();
+  public final Command echoCommand = new Echo();
+  public final Command typeCommand = new Type();
+  public final Command shellExecutable = new Executable();
+  public final Command pwdCommand = new PrintWorkingDirectory();
+  public final Command cdCommand = new ChangeDirectory();
 
   public void start() {
     try (Scanner scanner = new Scanner(System.in)) {
@@ -76,38 +77,4 @@ public final class Runner {
     return BuiltInCommand.EXECUTABLE;
   }
 
-  private enum BuiltInCommand {
-    EXIT {
-      void execute(Runner runner, String command) {
-        runner.stop();
-      }
-    },
-    ECHO {
-      void execute(Runner runner, String command) {
-        runner.echoCommand.execute(command);
-      }
-    },
-    TYPE {
-      void execute(Runner runner, String command) {
-        runner.typeCommand.execute(command);
-      }
-    },
-    EXECUTABLE {
-      void execute(Runner runner, String command) {
-        runner.shellExecutable.execute(command);
-      }
-    },
-    PWD {
-      void execute(Runner runner, String command) {
-        runner.pwdCommand.execute(command);
-      }
-    },
-    CD {
-      void execute(Runner runner, String command) {
-        runner.cdCommand.execute(command);
-      }
-    };
-
-    abstract void execute(Runner context, String command);
-  }
 }

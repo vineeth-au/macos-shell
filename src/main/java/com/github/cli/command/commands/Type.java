@@ -1,7 +1,11 @@
-package com.github.cli.commands;
+package com.github.cli.command.commands;
 
+import static com.github.cli.command.CommandUtils.checkEachFilePath;
+import static com.github.cli.command.CommandUtils.getArgumentFrom;
+import static com.github.cli.command.CommandUtils.getSystemEnvironmentPaths;
 import static com.github.cli.utils.ConsoleUtils.isCommandBuiltin;
 
+import com.github.cli.command.Command;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

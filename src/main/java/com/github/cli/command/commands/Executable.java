@@ -1,7 +1,12 @@
-package com.github.cli.commands;
+package com.github.cli.command.commands;
 
+import static com.github.cli.command.CommandUtils.checkEachFilePath;
+import static com.github.cli.command.CommandUtils.getArgumentFrom;
+import static com.github.cli.command.CommandUtils.getBuiltInFrom;
+import static com.github.cli.command.CommandUtils.getSystemEnvironmentPaths;
 import static com.github.cli.utils.ConsoleUtils.SINGLE_QUOTE;
 
+import com.github.cli.command.Command;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

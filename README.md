@@ -5,7 +5,7 @@ external programs and builtin commands like cd, pwd, echo and more.
 ## Java Version
 This version has been only tested on Java 25.
 
-## Current Features
+    ## Current Features
 1. Prompt: The shell starts with a prompt ($) that signals it’s ready for your command. As of now, only a few commands are supported.
 1. The `exit` command terminates the shell.
     1. `Control + C` terminates the shell.

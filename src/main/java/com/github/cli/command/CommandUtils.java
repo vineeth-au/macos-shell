@@ -1,4 +1,4 @@
-package com.github.cli.commands;
+package com.github.cli.command;
 
 import static com.github.cli.utils.ConsoleUtils.PATH;
 
@@ -13,12 +13,15 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public interface Command {
-  Logger log = LoggerFactory.getLogger(Command.class);
+public final class CommandUtils {
 
-  void execute(final String command);
+  private static final Logger log = LoggerFactory.getLogger(CommandUtils.class);
 
-  default String getBuiltInFrom(final String command) {
+  private CommandUtils() {
+    throw new IllegalStateException("CommandUtils not to be instantiated!");
+  }
+
+  public static String getBuiltInFrom(final String command) {
     if (command != null) {
       int firstSpaceIndex = command.indexOf(" ");
       if (firstSpaceIndex == -1) {
@@ -31,7 +34,7 @@ public interface Command {
     throw new NullPointerException("Command was NUll");
   }
 
-  default String getArgumentFrom(final String command) {
+  public static String getArgumentFrom(final String command) {
     if (command != null) {
       int firstSpaceIndex = command.indexOf(" ");
       if (firstSpaceIndex == -1) {
@@ -44,7 +47,7 @@ public interface Command {
     throw new NullPointerException("Argument was NUll");
   }
 
-  default List<String> getSystemEnvironmentPaths() {
+  public static List<String> getSystemEnvironmentPaths() {
     String pathParameters = System.getenv(PATH);
     List<String> pathList = new ArrayList<>();
 
@@ -66,7 +69,7 @@ public interface Command {
     return pathList;
   }
 
-  default String checkEachFilePath(String filePath, String argument) {
+  public static String checkEachFilePath(String filePath, String argument) {
     try {
       File file = new File(filePath);
       if (file.exists()) {
@@ -84,7 +87,7 @@ public interface Command {
     return "";
   }
 
-  private List<String> getExecutableFilesFrom(String filePath) throws IOException {
+  private static List<String> getExecutableFilesFrom(String filePath) throws IOException {
     try (Stream<Path> fileStream = Files.list(Paths.get(filePath))) {
       return fileStream
           .filter(f -> !Files.isDirectory(f))
