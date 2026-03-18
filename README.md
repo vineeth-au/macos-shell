@@ -5,7 +5,11 @@ external programs and builtin commands like cd, pwd, echo and more.
 ## Java Version
 This version has been only tested on Java 25.
 
-    ## Current Features
+## Getting Started
+Run `./your_program.sh`
+
+## Current Features ##
+
 1. Prompt: The shell starts with a prompt ($) that signals it’s ready for your command. As of now, only a few commands are supported.
 1. The `exit` command terminates the shell.
     1. `Control + C` terminates the shell.
@@ -48,7 +52,58 @@ This version has been only tested on Java 25.
      grep is /usr/bin/grep
     ```
 1. `pwd` (print working directory) builtin prints the full, absolute path of the current working directory to stdout.
-1. `cd` builtin is used to change the current working directory - Implementation in Progress
+1. `cd` builtin is used to change the current working directory.
 
-## Getting Started
-Run `./your_program.sh`
+## Quotes ##
+
+### Single Quotes ### 
+Single quotes (') disable all special meaning for characters enclosed within them. Every character between single quotes is treated literally.
+1. Characters inside single quotes (including escape characters and potential special characters like $, *, or ~) lose their special meaning and are treated as normal characters.
+1. Consecutive whitespace characters (spaces, tabs) inside single quotes are preserved and are not collapsed or used as delimiters.
+1. Quoted strings placed next to each other are concatenated to form a single argument.
+
+E.G.
+
+| Command              | Expected output | Explanation                                                  |
+| --- | --- |--------------------------------------------------------------|
+| echo 'hello    world'| hello    world  | Spaces are preserved within quotes                           |
+| echo hello    world	| hello world  | Consecutive spaces are collapsed unless quoted               |
+| echo 'hello''world'| helloworld | Adjacent quoted strings 'hello' and 'world' are concatenated |
+| echo hello''world| helloworld  | Empty quotes '' are ignored                                  |
+
+The `cat` command, with the file name parameter enclosed in single quotes:
+```
+$ cat '/tmp/file name' '/tmp/file name with spaces'
+content1 content2
+```
+where `/tmp/file name` equals content1 and `/tmp/file name with spaces` equals content2 
+
+### Double Quotes ###
+
+In shell syntax, most characters within double quotes (") are treated literally. This implementation covers
+1. Consecutive whitespaces (spaces, tabs) must be preserved. 
+1. Characters that normally act as delimiters or special characters lose their special meaning inside double quotes and are treated literally. 
+1. Double-quoted strings placed next to each other are concatenated to form a single argument.
+
+E.G.
+
+```
+$ echo "hello    world"
+hello    world         # Multiple spaces preserved
+
+$ echo "hello""world"
+helloworld             # Quoted strings next to each other are concatenated.
+
+$ echo "hello" "world"
+hello world            # Separate arguments
+
+$ echo "shell's test"
+shell's test           # Single quotes inside are literal
+```
+
+The `cat` command, with the file name parameter enclosed in single quotes:
+```
+$ cat "/tmp/file name" "/tmp/file 'name with 'spaces"
+content1 content2
+```
+where `/tmp/file name` equals content1 and `/tmp/file 'name with 'spaces` equals content2
