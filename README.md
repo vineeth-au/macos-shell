@@ -3,7 +3,7 @@ A POSIX compliant shell (in the near future) capable of interpreting shell comma
 external programs and builtin commands like cd, pwd, echo and more.
 
 ## Java Version
-This version has been only tested on Java 25.
+You will require Java 25.
 
 ## Getting Started
 Run `./your_program.sh`
@@ -16,7 +16,7 @@ Run `./your_program.sh`
 1. The `echo` builtin prints its arguments to `stdout`, with spaces between them, and a newline at the end.
     1.
 
-    ```shell
+    ```
      $ echo hello world
      hello world
      $ echo one two three
@@ -25,7 +25,7 @@ Run `./your_program.sh`
 1. The `type` builtin is used to determine how a command would be interpreted if it were used. It checks whether a command is a builtin, an executable file, or unrecognized.
     1. The `type` builtin can search for executable files using `PATH`. For example, if the `PATH` is set to `/dir1:/dir2:/dir3`, the shell would search for executables in `/dir1`, then `/dir2`, and finally `/dir3`, in that order.
 
-        ```shell
+        ```
          $ type echo
          echo is a shell builtin
          $ type exit
@@ -43,7 +43,7 @@ Run `./your_program.sh`
 1. When a command isn't a builtin, the shell would:
    1. Search for an executable with the given name in the directories listed in PATH (just like type does)
 
-    ```shell
+    ```
      $ type echo
      echo is a shell builtin
      $ type ls
