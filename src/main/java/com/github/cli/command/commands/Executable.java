@@ -4,9 +4,10 @@ import static com.github.cli.command.CommandUtils.checkEachFilePath;
 import static com.github.cli.command.CommandUtils.getArgumentFrom;
 import static com.github.cli.command.CommandUtils.getBuiltInFrom;
 import static com.github.cli.command.CommandUtils.getSystemEnvironmentPaths;
-import static com.github.cli.utils.ConsoleUtils.DOUBLE_QUOTES;
+import static com.github.cli.utils.ConsoleUtils.DOUBLE;
+import static com.github.cli.utils.ConsoleUtils.ESCAPE;
 import static com.github.cli.utils.ConsoleUtils.SINGLE_QUOTE;
-import static com.github.cli.utils.ConsoleUtils.SINGLE_QUOTES;
+import static com.github.cli.utils.ConsoleUtils.SINGLE;
 
 import com.github.cli.command.Command;
 import java.io.BufferedReader;
@@ -71,7 +72,7 @@ public class Executable implements Command {
     List<ProcessBuilder> processPipeline = getProcessPipeline(command);
     List<Process> processBuilder = ProcessBuilder.startPipeline(processPipeline);
 
-    for (Process process: processBuilder) {
+    for (Process process : processBuilder) {
       String eachLine = "";
       try (BufferedReader reader = new BufferedReader(
           new InputStreamReader(process.getInputStream()))) {
@@ -93,17 +94,17 @@ public class Executable implements Command {
     arguments.add(builtInCommand);
     StringBuilder current = new StringBuilder();
     boolean insideQuote = false;
-    char openingQuote = SINGLE_QUOTES;
+    char openingQuote = SINGLE;
 
     for (char eachChar : argument.toCharArray()) {
-      if (openingQuote == eachChar && eachChar == SINGLE_QUOTES || eachChar == DOUBLE_QUOTES ) {
+      if (openingQuote == eachChar && eachChar == SINGLE || eachChar == DOUBLE) {
         if (insideQuote) {
           arguments.add(current.toString());
           current.setLength(0);
         }
         insideQuote = !insideQuote;
         openingQuote = eachChar;
-      } else if (insideQuote){
+      } else if (insideQuote) {
         current.append(eachChar);
       }
     }

@@ -19,10 +19,10 @@ public final class ConsoleUtils {
   public static final String PARENT_DIRECTORY = "../";
   public static final String SINGLE_QUOTE = "'";
 
-  public static final char SINGLE_QUOTES = '\'';
-  public static final char DOUBLE_QUOTES = '"';
-  public static final char BACKSLASH = '\\';
-  public static final char SPACE = ' ';
+  public static final char SINGLE = '\'';
+  public static final char DOUBLE = '"';
+  public static final char ESCAPE = '\\';
+  public static final char WHITESPACE = ' ';
 
   public static final String USER_DIRECTORY = "user.dir";
 

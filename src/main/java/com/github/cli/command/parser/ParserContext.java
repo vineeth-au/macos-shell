@@ -1,9 +1,7 @@
 package com.github.cli.command.parser;
 
-import static com.github.cli.utils.ConsoleUtils.SPACE;
+import static com.github.cli.utils.ConsoleUtils.WHITESPACE;
 
-import com.github.cli.command.parser.states.NormalState;
-import com.github.cli.command.parser.states.ParseState;
 import lombok.Getter;
 
 public final class ParserContext {
@@ -19,7 +17,7 @@ public final class ParserContext {
     this.input = input;
     this.output = new StringBuilder();
     this.position = 0;
-    this.parseState = NormalState.INSTANCE;
+    this.parseState = ParseState.NORMAL;
   }
 
   public boolean hasNext() {
@@ -32,7 +30,7 @@ public final class ParserContext {
 
   public boolean lastCharWasSpace() {
     int len = output.length();
-    return len > 0 && output.charAt(len - 1) == SPACE;
+    return len > 0 && output.charAt(len - 1) == WHITESPACE;
   }
 
   public void increment() {
